@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  {{removeHyphens serviceName}}Function:
+    Type: AWS::Lambda::Function
+    Properties:
+      Role: {{serviceParameters.envRole}}
+      FunctionName: {{serviceName}}
+      Handler: index.handler
+      Runtime: {{serviceParameters.envTargetRuntime}}
+      Tags:
+        - Key: Timestamp
+          Value: {{timestamp}}
+      Code:
+        S3Bucket: {{serviceParameters.envSrcBucketName}}
+        S3Key: {{serviceName}}.zip
+      Environment:
+        Variables:
+          {{#each envParameters}}
+          {{name}}: {{value}}
+          {{/each}}
+  {{removeHyphens serviceName}}FunctionUrl:
+    Type: AWS::Lambda::Url
+    Properties:
+      TargetFunctionArn: !Ref {{removeHyphens serviceName}}Function
+      AuthType: NONE

@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  MyFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Role: {{serviceParameters.envRole}}
+      FunctionName: {{serviceName}}
+      Handler: index.handler
+      Runtime: {{serviceParameters.envTargetRuntime}}
+      Tags:
+        - Key: Timestamp
+          Value: {{timestamp}}
+      Code:
+        S3Bucket: {{serviceParameters.envSrcBucketName}}
+        S3Key: {{serviceName}}.zip
+      Environment:
+        Variables:
+          {{#each envParameters}}
+          - {{name}}: {{value}}
+          {{/each}}
+      MemorySize: 1024  # Allocate 1024 MB of memory
+      Timeout: 60       # Execution timeout in seconds
+      Events:
+        MyApiEvent:  # Example API Gateway trigger
+          Type: Api
+          Properties:
+            Path: /my-resource
+            Method: GET
+      Policies:
+        - AWSLambdaBasicExecutionRole
+  MyFunctionUrl:
+    Type: AWS::Lambda::Url
+    Properties:
+      TargetFunctionArn: !Ref MyFunction
+      AuthType: NONE
+Outputs:
+  PublicFunctionURL:
+    Value: !GetAtt MyFunctionUrl.FunctionUrl
+    Description: The public URL to access the Lambda function
+
+
+

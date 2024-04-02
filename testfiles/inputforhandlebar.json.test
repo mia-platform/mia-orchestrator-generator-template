@@ -1,0 +1,18 @@
+{
+  serviceName: "myService",
+  serviceParameters:{
+   envTargetRuntime: "nodejs.18",
+   envSrcBucketName: "myBucket"
+  },
+  envParameters:[{
+    name: "LOG_LEVEL",
+    value: "{{LOG_LEVEL}}",
+    valueType: "plain"
+  },
+  {
+    name: "HTTP_PORT",
+    value: "3000",
+    valueType: "plain"
+  },],
+  timestamp: "2023-11-16T12:26:43.123Z "
+}

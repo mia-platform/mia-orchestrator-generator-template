@@ -1,0 +1,14 @@
+'use strict'
+// test file for aws lambda
+exports.handler = async (event, context) => {
+  const response = {
+    statusCode: 200,
+    headers: {
+      "Content-Type": "text/plain"
+    },
+    body: "Hello, Mia Demo Serverless"
+  };
+  return response;
+};
+
+

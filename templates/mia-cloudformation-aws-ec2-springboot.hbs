@@ -1,0 +1,72 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Deploys a Spring Boot application to EC2
+
+Resources:
+  SpringBootEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-0647d09503a610916
+      InstanceType: t2.micro
+      KeyName: mia-demo-springboot
+      SecurityGroups:
+        - !Ref AppSecurityGroup
+      IamInstanceProfile: !Ref ReadS3BucketsInstanceProfile
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash -xe
+          sudo atp update -y
+          sudo atp install java-11-amazon-corretto -y 
+          sudo snap install aws-cli --classic
+          sudo aws s3 cp s3://mia-demo-lambda/java-hello-world.jar /home/ubuntu/app.jar
+          nohup java -jar /home/ubuntu/app.jar
+
+  AppSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow port 80 (replace with the port for your Spring Boot app)
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 3000
+          ToPort: 3000
+          CidrIp: 0.0.0.0/0
+  ReadS3BucketsInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: "/"
+      Roles:
+        - Ref: ReadS3BucketsRole
+  ReadS3BucketsPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: ReadS3BucketsPolicy
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Action:
+              - s3:List*
+              - s3:GetObject
+            Resource: "*"
+      Roles:
+        - Ref: ReadS3BucketsRole
+  ReadS3BucketsRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: "/"
+
+Outputs:
+  InstancePublicDNS:
+    Description: Public DNS of the EC2 instance
+    Value: !GetAtt SpringBootEC2Instance.PublicDnsName

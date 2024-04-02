@@ -1,0 +1,39 @@
+{
+  "name": "aws-lambda-generator",
+  "version": "0.3.0",
+  "description": "Example of a simple Node.js application.  It contains example of tests too.",
+  "license": "SEE LICENSE IN LICENSE",
+  "main": "index.js",
+  "scripts": {
+    "checkonly": "! grep -R '\\.only' tests/",
+    "coverage": "npm run lint",
+    "postcoverage": "tap --coverage-report=lcov --no-browser",
+    "lint": "eslint . --ignore-path=.gitignore",
+    "start": "lc39 index.js",
+    "start:local": "npm start -- --env-path ./local.env",
+    "test": "jest",
+    "unit": "tap -o tap.log tests/*.test.js",
+    "update-version": "./scripts/update-version.sh ${npm_package_version} && git add CHANGELOG.md Dockerfile",
+    "version": "npm run update-version"
+  },
+  "dependencies": {
+    "@mia-platform/custom-plugin-lib": "^5.0.0",
+    "handlebars": "^4.7.8",
+    "to-camel-case": "^1.0.0"
+  },
+  "devDependencies": {
+    "@mia-platform/eslint-config-mia": "^3.0.0",
+    "eslint": "^8.17.0",
+    "install": "^0.13.0",
+    "jest": "^29.7.0",
+    "pre-commit": "^1.2.2",
+    "tap": "^16.2.0"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "private": true,
+  "eslintConfig": {
+    "extends": "@mia-platform/eslint-config-mia"
+  }
+}

@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  MyFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Role: arn:aws:iam::694348909645:role/lambda-mia-demo-role
+      FunctionName: cloud-function
+      Handler: index.handler
+      Runtime: nodejs18.x
+      Tags:
+        - Key: Timestamp
+          Value: 2024-03-17T09:51:24.937Z
+      Code:
+        S3Bucket: mia-demo-lambda
+        S3Key: cloud-function.zip
+      Environment:
+        Variables:
+          LOG_LEVEL: info
+          MICROSERVICE_GATEWAY_SERVICE_NAME: microservice-gateway
+          TRUSTED_PROXIES: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+          HTTP_PORT: 3000
+          USERID_HEADER_KEY: miauserid
+          GROUPS_HEADER_KEY: miausergroups
+          CLIENTTYPE_HEADER_KEY: client-type
+          BACKOFFICE_HEADER_KEY: isbackoffice
+          USER_PROPERTIES_HEADER_KEY: miauserproperties
+  MyFunctionUrl:
+    Type: AWS::Lambda::Url
+    Properties:
+      TargetFunctionArn: !Ref MyFunction
+      AuthType: NONE
+Outputs:
+  PublicFunctionURL:
+    Value: !GetAtt MyFunctionUrl.FunctionUrl
+    Description: The public URL to access the Lambda function
+

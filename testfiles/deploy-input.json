@@ -1,0 +1,376 @@
+{
+  "project": {
+    "id": "4343443438823832989823923",
+    "name": "MOB CSM Functions",
+    "projectId": "mob-csm-functions"
+  },
+  "tenant": {
+    "id": "84834988434379834773498734983479438"
+  },
+  "environment": {
+    "id": "DEV",
+    "name": "Development",
+    "isProduction": false
+  },
+  "configuration": {
+    "services": {
+      "cloud-function": {
+        "name": "cloud-function",
+        "description": "A simple repository template to start coding from scratch",
+        "tags": [
+          "custom"
+        ],
+        "type": "custom",
+        "repoUrl": "http://repourl",
+        "advanced": false,
+        "createdAt": "2023-12-21T14:40:07.064Z",
+        "dockerImage": "dockerregistry/cloud-function",
+        "containerPorts": [
+          {
+            "name": "http",
+            "from": 80,
+            "to": 3000,
+            "protocol": "TCP"
+          }
+        ],
+        "probes": {
+          "liveness": {
+            "path": "/-/healthz",
+            "port": "http",
+            "initialDelaySeconds": 15,
+            "periodSeconds": 20,
+            "timeoutSeconds": 1,
+            "failureThreshold": 3
+          },
+          "readiness": {
+            "path": "/-/ready",
+            "port": "http",
+            "initialDelaySeconds": 5,
+            "periodSeconds": 10,
+            "timeoutSeconds": 1,
+            "successThreshold": 1,
+            "failureThreshold": 3
+          }
+        },
+        "environment": [
+          {
+            "name": "LOG_LEVEL",
+            "value": "{{LOG_LEVEL}}",
+            "valueType": "plain"
+          },
+          {
+            "name": "MICROSERVICE_GATEWAY_SERVICE_NAME",
+            "value": "microservice-gateway",
+            "valueType": "plain"
+          },
+          {
+            "name": "TRUSTED_PROXIES",
+            "value": "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16",
+            "valueType": "plain"
+          },
+          {
+            "name": "HTTP_PORT",
+            "value": "3000",
+            "valueType": "plain"
+          },
+          {
+            "name": "USERID_HEADER_KEY",
+            "value": "miauserid",
+            "valueType": "plain"
+          },
+          {
+            "name": "GROUPS_HEADER_KEY",
+            "value": "miausergroups",
+            "valueType": "plain"
+          },
+          {
+            "name": "CLIENTTYPE_HEADER_KEY",
+            "value": "client-type",
+            "valueType": "plain"
+          },
+          {
+            "name": "BACKOFFICE_HEADER_KEY",
+            "value": "isbackoffice",
+            "valueType": "plain"
+          },
+          {
+            "name": "USER_PROPERTIES_HEADER_KEY",
+            "value": "miauserproperties",
+            "valueType": "plain"
+          }
+        ],
+        "resources": {
+          "cpuLimits": {
+            "max": "100m",
+            "min": "100m"
+          },
+          "memoryLimits": {
+            "max": "150Mi",
+            "min": "150Mi"
+          }
+        },
+        "replicas": 1,
+        "annotations": [
+          {
+            "name": "fluentbit.io/parser",
+            "value": "pino",
+            "description": "Pino parser annotation for Fluent Bit"
+          },
+          {
+            "name": "mia-platform.eu/version",
+            "value": "12.3.0",
+            "description": "Version of Mia-Platform used by the project"
+          },
+          {
+            "name": "envTargetRuntime",
+            "value": "nodejs18.x",
+            "valueType": "plain"
+          },
+          {
+            "name": "envSrcBucketName",
+            "value": "miaplatform-mob",
+            "valueType": "plain"
+          },
+          {
+            "name": "envRole",
+            "value": "arn:aws:iam::378190652726:role/lambda-mia",
+            "valueType": "plain"
+          }
+        ],
+        "labels": [
+          {
+            "name": "app",
+            "value": "cloud-function",
+            "description": "Name of the microservice, in the service selector"
+          },
+          {
+            "name": "app.kubernetes.io/name",
+            "value": "cloud-function",
+            "description": "Name of the microservice"
+          },
+          {
+            "name": "app.kubernetes.io/component",
+            "value": "custom",
+            "description": "Microservice kind, for the Console"
+          },
+          {
+            "name": "app.kubernetes.io/part-of",
+            "value": "mob-csm-functions",
+            "description": "Project that own the microservice"
+          },
+          {
+            "name": "app.kubernetes.io/managed-by",
+            "value": "mia-platform",
+            "description": "Identify who manage the service"
+          },
+          {
+            "name": "mia-platform.eu/stage",
+            "value": "{{STAGE_TO_DEPLOY}}",
+            "description": "Environment used for the deploy"
+          },
+          {
+            "name": "mia-platform.eu/tenant",
+            "value": "54bd78c8-2363-4bf8-b85d-da2cdd81f8d4",
+            "description": "Tenant owner of the project"
+          },
+          {
+            "name": "mia-platform.eu/log-type",
+            "value": "mia-json",
+            "description": "Format of logs for the microservice"
+          },
+          {
+            "name": "app.kubernetes.io/version",
+            "value": "latest",
+            "description": "Tag of the Docker image"
+          },
+          {
+            "name": "mia-platform/runtime",
+            "value": "aws-lambda",
+            "description": "target runtime"
+          }
+        ],
+        "terminationGracePeriodSeconds": 30,
+        "swaggerPath": "/documentation/json"
+      },
+      "function-two": {
+        "name": "function-two",
+        "description": "A simple repository template to start coding from scratch",
+        "tags": [
+          "custom"
+        ],
+        "type": "custom",
+        "repoUrl": "https://url/services/cloud-function",
+        "advanced": false,
+        "createdAt": "2023-12-21T14:40:07.064Z",
+        "dockerImage": "dockerregistry/cloud-function2",
+        "containerPorts": [
+          {
+            "name": "http",
+            "from": 80,
+            "to": 3000,
+            "protocol": "TCP"
+          }
+        ],
+        "probes": {
+          "liveness": {
+            "path": "/-/healthz",
+            "port": "http",
+            "initialDelaySeconds": 15,
+            "periodSeconds": 20,
+            "timeoutSeconds": 1,
+            "failureThreshold": 3
+          },
+          "readiness": {
+            "path": "/-/ready",
+            "port": "http",
+            "initialDelaySeconds": 5,
+            "periodSeconds": 10,
+            "timeoutSeconds": 1,
+            "successThreshold": 1,
+            "failureThreshold": 3
+          }
+        },
+        "environment": [
+          {
+            "name": "LOG_LEVEL",
+            "value": "info",
+            "valueType": "plain"
+          },
+          {
+            "name": "MICROSERVICE_GATEWAY_SERVICE_NAME",
+            "value": "microservice-gateway",
+            "valueType": "plain"
+          },
+          {
+            "name": "TRUSTED_PROXIES",
+            "value": "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16",
+            "valueType": "plain"
+          },
+          {
+            "name": "HTTP_PORT",
+            "value": "3000",
+            "valueType": "plain"
+          },
+          {
+            "name": "USERID_HEADER_KEY",
+            "value": "miauserid",
+            "valueType": "plain"
+          },
+          {
+            "name": "GROUPS_HEADER_KEY",
+            "value": "miausergroups",
+            "valueType": "plain"
+          },
+          {
+            "name": "CLIENTTYPE_HEADER_KEY",
+            "value": "client-type",
+            "valueType": "plain"
+          },
+          {
+            "name": "BACKOFFICE_HEADER_KEY",
+            "value": "isbackoffice",
+            "valueType": "plain"
+          },
+          {
+            "name": "USER_PROPERTIES_HEADER_KEY",
+            "value": "miauserproperties",
+            "valueType": "plain"
+          }
+        ],
+        "resources": {
+          "cpuLimits": {
+            "max": "100m",
+            "min": "100m"
+          },
+          "memoryLimits": {
+            "max": "150Mi",
+            "min": "150Mi"
+          }
+        },
+        "replicas": 1,
+        "annotations": [
+          {
+            "name": "fluentbit.io/parser",
+            "value": "pino",
+            "description": "Pino parser annotation for Fluent Bit"
+          },
+          {
+            "name": "mia-platform.eu/version",
+            "value": "12.3.0",
+            "description": "Version of Mia-Platform used by the project"
+          },
+          {
+            "name": "envTargetRuntime",
+            "value": "nodejs18.x",
+            "valueType": "plain"
+          },
+          {
+            "name": "envSrcBucketName",
+            "value": "miaplatform-mob",
+            "valueType": "plain"
+          },
+          {
+            "name": "envRole",
+            "value": "arn:aws:iam::378190652726:role/lambda-mia",
+            "valueType": "plain"
+          }
+        ],
+        "labels": [
+          {
+            "name": "app",
+            "value": "cloud-function",
+            "description": "Name of the microservice, in the service selector"
+          },
+          {
+            "name": "app.kubernetes.io/name",
+            "value": "cloud-function",
+            "description": "Name of the microservice"
+          },
+          {
+            "name": "app.kubernetes.io/component",
+            "value": "custom",
+            "description": "Microservice kind, for the Console"
+          },
+          {
+            "name": "app.kubernetes.io/part-of",
+            "value": "mob-csm-functions",
+            "description": "Project that own the microservice"
+          },
+          {
+            "name": "app.kubernetes.io/managed-by",
+            "value": "mia-platform",
+            "description": "Identify who manage the service"
+          },
+          {
+            "name": "mia-platform.eu/stage",
+            "value": "{{STAGE_TO_DEPLOY}}",
+            "description": "Environment used for the deploy"
+          },
+          {
+            "name": "mia-platform.eu/tenant",
+            "value": "54bd78c8-2363-4bf8-b85d-da2cdd81f8d4",
+            "description": "Tenant owner of the project"
+          },
+          {
+            "name": "mia-platform.eu/log-type",
+            "value": "mia-json",
+            "description": "Format of logs for the microservice"
+          },
+          {
+            "name": "app.kubernetes.io/version",
+            "value": "latest",
+            "description": "Tag of the Docker image"
+          },
+          {
+            "name": "mia-platform/runtime",
+            "value": "aws-s3-bucket",
+            "description": "target runtime"
+          }
+        ],
+        "terminationGracePeriodSeconds": 30,
+        "swaggerPath": "/documentation/json"
+      }
+    },
+    "configMaps": {}
+  }
+}
