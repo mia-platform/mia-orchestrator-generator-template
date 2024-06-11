@@ -76,13 +76,7 @@ async function handler(req) {
     }
   }
   debugMessage('Completed! This is the list of files', req.log, { filesForGit })
-
-  const yamlResources = Object.values(filesForGit).map(yaml => yaml.split('Resources:\n')[1])
-    .join('\n')
-
-  return {
-    'deployment.yaml': `AWSTemplateFormatVersion: '2010-09-09'\nResources:\n${yamlResources}`,
-  }
+  return filesForGit
 }
 
 // main function
