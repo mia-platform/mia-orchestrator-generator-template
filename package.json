@@ -17,7 +17,7 @@
     "version": "npm run update-version"
   },
   "dependencies": {
-    "@mia-platform/custom-plugin-lib": "^5.0.0",
+    "@mia-platform/custom-plugin-lib": "^6.0.3",
     "handlebars": "^4.7.8",
     "to-camel-case": "^1.0.0"
   },
